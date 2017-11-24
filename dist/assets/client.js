@@ -21,6 +21,11 @@ body.addEventListener('submit', function (ev){
   button.innerHTML = 'Please Wait'
 
   // Modified by Hi-Ether
+  if (!HiEther.accountAvailable()) {
+    button.disabled = false
+    button.innerHTML = 'Unlock your MetaMask account'
+    return
+  }
   HiEther.sign(email.value, function (signature) {
     if (!signature) {
       button.disabled = false
@@ -134,18 +139,21 @@ var HiEther = {
     var from = web3.eth.accounts[0]
     var params = [msg, from]
     var method = 'personal_sign'
-    return web3.currentProvider.sendAsync({ method: method, params: params, from: from }, function (err, result) {
+    web3.currentProvider.sendAsync({ method: method, params: params, from: from }, function (err, result) {
       if (err) {
         console.error(err)
-        callback(null)
+        return callback(null)
       }
       if (result.error) {
         console.error(result.error)
-        callback(null)
+        return callback(null)
       }
       var signature = result.result
-      callback(signature)
+      return callback(signature)
     })
+  },
+  accountAvailable() {
+    return typeof web3.eth.accounts[0] !== 'undefined'
   }
 }
 
