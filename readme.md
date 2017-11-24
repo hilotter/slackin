@@ -1,5 +1,10 @@
 ![](https://github.com/zeit/art/blob/e081cf46e6609b51ac485dcc337ac6644c0da5e7/slackin/repo-banner.png)
 
+## Token Verification
+- [Hi-Ether](https://www.hi-ether.org/) has modified this app to authenticate users who wish to join their community [slack](https://slack.hi-ether.org/).
+- To recieve an invite, users must hold **Ropsten** ETH in their MetaMask browser account.
+- The app will then call the .getBalance() function on the Ethereum Ropsten Testnet.
+
 ## Features
 
 - A landing page you can point users to fill in their emails and receive an invite (`https://slack.yourdomain.com`)
