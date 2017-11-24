@@ -5,7 +5,6 @@
 - A landing page you can point users to fill in their emails and receive an invite (`https://slack.yourdomain.com`)
 - An `<iframe>` badge to embed on any website that shows connected users in *realtime* with socket.io.
 - A SVG badge that works well from static mediums (like GitHub README pages)
-- Abuse prevention via [Google reCAPTCHA](https://www.google.com/recaptcha/intro/)
 
 Check out the [Demo](https://slackin.now.sh/) or read more about the [motivations and history](http://rauchg.com/slackin) behind Slackin.
 
@@ -35,9 +34,6 @@ able to invite as many external accounts as paying members you have
 times 5. If you are not getting invite emails, this might be the reason.
 Workaround: sign up for a free org, and set up Slackin to point to it
 (all channels will be visible).
-
-Here is where to [generate a secret and
-sitekey](https://www.google.com/recaptcha/admin) for Google reCAPTCHA.
 
 ### Badges
 
