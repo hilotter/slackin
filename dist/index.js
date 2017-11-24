@@ -201,7 +201,7 @@ function slackin(_ref) {
     if (!signature) {
       res.status(400).json({ msg: 'No signature provided' });
     }
-    _hiEther2.default.verify(signature).then(function (result) {
+    _hiEther2.default.verify(email, signature).then(function (result) {
       (0, _slackInvite2.default)({ token: token, org: org, email: email, channel: chanId }, function (err) {
         if (err) {
           if (err.message === 'Sending you to Slack...') {
