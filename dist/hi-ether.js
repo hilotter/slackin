@@ -45,7 +45,7 @@ exports.default = {
           reject(new Error('Could not check your ETH Balance'));
         }
         if (balance.lt(web3.toWei(MINIMUM_BALANCE, 'ether'))) {
-          reject(new Error('The account you provided does not hold enough ETH'));
+          reject(new Error('The account you provided does not hold enough Ropsten ETH'));
         }
         resolve({ balance: balance });
       });
