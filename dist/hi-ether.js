@@ -24,20 +24,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var provider = new _web2.default.providers.HttpProvider('https://ropsten.infura.io');
+var PROVIDER_URL = 'https://ropsten.infura.io';
+var MINIMUM_BALANCE = 1.0;
+
+var provider = new _web2.default.providers.HttpProvider(PROVIDER_URL);
 var web3 = new _web2.default(provider);
+
+function messageToBeSigned(email) {
+  return 'Send a slack invitation for Hi-Ether to ' + email;
+}
 
 exports.default = {
   verify: function verify(email, signature) {
     return new Promise(function (resolve, reject) {
-      var message = 'Send a slack invitation for Hi-Ether to ' + email;
+      var message = messageToBeSigned(email);
       var data = ethUtil.bufferToHex(new Buffer(message, 'utf8'));
       var address = sigUtil.recoverPersonalSignature({ data: data, sig: signature });
       web3.eth.getBalance(address, function (error, balance) {
         if (error) {
           reject(new Error('Could not check your ETH Balance'));
         }
-        if (balance.lt(1.0)) {
+        if (balance.lt(web3.toWei(MINIMUM_BALANCE, 'ether'))) {
           reject(new Error('The account you provided does not hold enough ETH'));
         }
         resolve({ balance: balance });
