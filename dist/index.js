@@ -59,12 +59,13 @@ var _log = require('./log');
 
 var _log2 = _interopRequireDefault(_log);
 
+var _hiEther = require('./hi-ether');
+
+var _hiEther2 = _interopRequireDefault(_hiEther);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// our code
-
-
-// their code
+// es6 runtime requirements
 function slackin(_ref) {
   var token = _ref.token,
       _ref$interval = _ref.interval,
@@ -195,16 +196,25 @@ function slackin(_ref) {
       return res.status(400).json({ msg: 'Agreement to CoC is mandatory' });
     }
 
-    (0, _slackInvite2.default)({ token: token, org: org, email: email, channel: chanId }, function (err) {
-      if (err) {
-        if (err.message === 'Sending you to Slack...') {
-          return res.status(303).json({ msg: err.message, redirectUrl: 'https://' + org + '.slack.com' });
+    // Added by Hi-Ether
+    var signature = req.body.signature;
+    if (!signature) {
+      res.status(400).json({ msg: 'No signature provided' });
+    }
+    _hiEther2.default.verify(signature).then(function (result) {
+      (0, _slackInvite2.default)({ token: token, org: org, email: email, channel: chanId }, function (err) {
+        if (err) {
+          if (err.message === 'Sending you to Slack...') {
+            res.status(303).json({ msg: err.message, redirectUrl: 'https://' + org + '.slack.com' });
+          } else {
+            res.status(400).json({ msg: err.message });
+          }
+        } else {
+          res.status(200).json({ msg: 'WOOT. Check your email!' });
         }
-
-        return res.status(400).json({ msg: err.message });
-      }
-
-      res.status(200).json({ msg: 'WOOT. Check your email!' });
+      });
+    }).catch(function (error) {
+      res.status(400).json({ msg: error.message });
     });
   });
 
@@ -260,4 +270,9 @@ function slackin(_ref) {
   });
 
   return srv;
-} // es6 runtime requirements
+}
+
+// our code
+
+
+// their code
