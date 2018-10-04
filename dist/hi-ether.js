@@ -24,14 +24,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var PROVIDER_URL = 'https://ropsten.infura.io';
-var MINIMUM_BALANCE = 1.0;
+var PROVIDER_URL = process.env.INFURA_URL;
+var TOKEN_ADDRESS = process.env.TOKEN_ADDRESS;
+var MINIMUM_BALANCE = process.env.MINIMUM_BALANCE;
 
 var provider = new _web2.default.providers.HttpProvider(PROVIDER_URL);
 var web3 = new _web2.default(provider);
 
+var erc20ABI = [{
+  "constant": true,
+  "inputs": [{ "name": "_owner", "type": "address" }],
+  "name": "balanceOf",
+  "outputs": [{ "name": "balance", "type": "uint256" }],
+  "type": "function"
+}, {
+  "constant": true,
+  "inputs": [],
+  "name": "decimals",
+  "outputs": [{ "name": "", "type": "uint8" }],
+  "type": "function"
+}];
+var erc20contract = web3.eth.contract(erc20ABI).at(TOKEN_ADDRESS);
+
 function messageToBeSigned(email) {
-  return 'Send a slack invitation for Hi-Ether to ' + email;
+  return 'Send a slack invitation to ' + email;
 }
 
 exports.default = {
@@ -40,14 +56,20 @@ exports.default = {
       var message = messageToBeSigned(email);
       var data = ethUtil.bufferToHex(new Buffer(message, 'utf8'));
       var address = sigUtil.recoverPersonalSignature({ data: data, sig: signature });
-      web3.eth.getBalance(address, function (error, balance) {
+      erc20contract.balanceOf(address, function (error, balance) {
         if (error) {
-          reject(new Error('Could not check your ETH Balance'));
+          reject(new Error('Could not check your Token Balance'));
         }
-        if (balance.lt(web3.toWei(MINIMUM_BALANCE, 'ether'))) {
-          reject(new Error('The account you provided does not hold enough Ropsten ETH'));
-        }
-        resolve({ balance: balance });
+        erc20contract.decimals(function (error, decimals) {
+          if (error) {
+            reject(new Error('Could not check Token Decimals'));
+          }
+          var tokenBalance = balance.div(10 ** decimals);
+          if (tokenBalance.lt(MINIMUM_BALANCE)) {
+            reject(new Error('The account you provided does not hold enough Token'));
+          }
+          resolve({ tokenBalance: tokenBalance });
+        });
       });
     });
   }

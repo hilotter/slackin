@@ -1,9 +1,22 @@
 ![](https://github.com/zeit/art/blob/e081cf46e6609b51ac485dcc337ac6644c0da5e7/slackin/repo-banner.png)
 
-## Token Verification
-- [Hi-Ether](https://www.hi-ether.org/) has modified this app to authenticate users who wish to join their community [slack](https://slack.hi-ether.org/).
-- To recieve an invite, users must hold **Ropsten** ETH in their MetaMask browser account.
-- The app will then call the .getBalance() function on the Ethereum Ropsten Testnet.
+## ERC20 Token Verification
+- To recieve an invite, users must hold some ERC20 token in their MetaMask browser account.
+- You can set token info as environment variables.
+- The app will then call the .balanceOf() function on the Ethereum network.
+- original is [hi-rther/slackin](https://github.com/hi-ether/slackin)
+
+```
+# example environment variables
+export SLACK_SUBDOMAIN=
+export SLACK_API_TOKEN=
+export TEAM_NAME='your community name'
+export TOKEN_NAME='ZRX'
+export NETWORK_NAME='mainnet'
+export INFURA_URL=https://mainnet.infura.io
+export TOKEN_ADDRESS=0xe41d2489571d322189246dafa5ebde1f4699f498
+export MINIMUM_BALANCE=100.0
+```
 
 ## Features
 
