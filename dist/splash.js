@@ -33,7 +33,7 @@ function splash(_ref) {
   // otherwise a fixed channel
   : (0, _vd2.default)('input type=hidden name=channel', { value: channels[0] })),
   // Hi-Ether: START
-  (0, _vd2.default)('p', 'You must hold at least ' + process.env.MINIMUM_BALANCE + ' ' + process.env.TOKEN_NAME + ' (', (0, _vd2.default)('strong', process.env.NETWORK_NAME), ')  to become a member of ' + process.env.TEAM_NAME + '.'),
+  (0, _vd2.default)('p', 'You must hold at least ' + process.env.MINIMUM_BALANCE + ' ' + process.env.TOKEN_NAME + ' (', (0, _vd2.default)('strong', process.env.NETWORK_NAME), ')  to become a member.'),
   // Hi-Ether: END
   (0, _vd2.default)('input.form-item type=email name=email placeholder=you@yourdomain.com ' + (!iframe ? 'autofocus' : '')), coc && (0, _vd2.default)('.coc', (0, _vd2.default)('label', (0, _vd2.default)('input type=checkbox name=coc value=1'), 'I agree to the ', (0, _vd2.default)('a', { href: coc, target: '_blank' }, 'Code of Conduct'), '.')), (0, _vd2.default)('button.loading', 'Get my Invite')), (0, _vd2.default)('p.signin', 'or ', (0, _vd2.default)('a href=https://' + org + '.slack.com target=_top', 'sign in'), '.'), !iframe && (0, _vd2.default)('footer', 'powered by ', (0, _vd2.default)('a href=http://rauchg.com/slackin target=_blank', 'slackin')), style({ logo: logo, active: active, large: large, iframe: iframe }),
   // xxx: single build

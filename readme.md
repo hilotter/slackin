@@ -10,7 +10,6 @@
 # example environment variables
 export SLACK_SUBDOMAIN=
 export SLACK_API_TOKEN=
-export TEAM_NAME='your community name'
 export TOKEN_NAME='ZRX'
 export NETWORK_NAME='mainnet'
 export INFURA_URL=https://mainnet.infura.io
