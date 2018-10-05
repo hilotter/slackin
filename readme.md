@@ -12,7 +12,7 @@ export SLACK_SUBDOMAIN=
 export SLACK_API_TOKEN=
 export TOKEN_NAME='ZRX'
 export NETWORK_NAME='mainnet'
-export INFURA_URL=https://mainnet.infura.io
+export INFURA_URL=https://mainnet.infura.io/v3/{your_key}
 export TOKEN_ADDRESS=0xe41d2489571d322189246dafa5ebde1f4699f498
 export MINIMUM_BALANCE=100.0
 ```
